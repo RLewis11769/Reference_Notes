@@ -1,0 +1,9 @@
+services:
+  # Name of service - would have multiple if db, backend, etc
+  react-app:
+    # List of environment variable files
+    env_file:
+      - ./.env
+
+# To use:
+# docker-compose -f docker-compose.yml -f other_file_name.yml up -d

@@ -1,0 +1,19 @@
+services:
+  # Name of service - would have multiple if db, backend, etc
+  react-app:
+    # Image to use
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    # List of ports to expose
+    ports:
+      - "3000:3000"
+    # List of volumes to mount aka bind mounts - notice that uses relative path
+    volumes:
+      - ./src:/app/src:ro
+
+# Replaces docker run command
+# docker run -d -p 3000:3000 -v $(pwd)/src:/app/src:ro --env-file ./.env -f Dockerfile.dev --name container_name image_tagname
+
+# To use:
+# docker-compose -f docker-compose.yml -f docker-compose-dev.yml up -d

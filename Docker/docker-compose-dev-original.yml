@@ -1,0 +1,20 @@
+# version: "3"
+services:
+  # Name of service - would have multiple if db, backend, etc
+  react-app:
+    # Image to use
+    build: .
+    # List of ports to expose
+    ports:
+      - "3000:3000"
+    # List of volumes to mount aka bind mounts - notice that uses relative path
+    volumes:
+      - ./src:/app/src:ro
+    # List of environment variable files
+    env_file:
+      - ./.env
+# Replaces docker run command
+# docker run -p 3000:3000 -v $(pwd)/src:/app/src:ro --env-file ./.env --name container_name image_tagname
+
+# To use:
+# docker-compose up -d

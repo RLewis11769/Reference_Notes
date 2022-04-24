@@ -1,0 +1,18 @@
+# Each line/command is layer of image installed separately
+#  Includes caching (which is why copy package.json separately)
+# Base docker container on node image with default settings
+FROM node:16
+# Defines working directory
+WORKDIR /app
+# Requires this to not fail out for some reason?
+RUN npm install npm@latest
+# Copy package.json to /app (found in current directory)
+COPY package.json .
+# Install dependencies based on package.json
+RUN npm install
+# Copy all other files to working directory
+COPY . .
+# React default port is 3000
+EXPOSE 3000
+# Start server with npm start
+CMD ["npm", "start"]

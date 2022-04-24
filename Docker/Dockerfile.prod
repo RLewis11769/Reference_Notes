@@ -1,0 +1,26 @@
+# Each line/command is layer of image installed separately
+#  Includes caching (which is why copy package.json separately)
+# Base docker container on node image with default settings
+FROM node:16 as build
+# Defines working directory
+WORKDIR /app
+# Requires this to not fail out for some reason?
+RUN npm install npm@latest
+# Copy package.json to /app (found in current directory)
+COPY package.json .
+# Install dependencies based on package.json
+RUN npm install
+# Copy all other files to working directory
+COPY . .
+# Define arg used in docker-compose
+ARG REACT_APP_VAR
+# Set value of NODE_ENV to whatever is passed in args in docker-compose-prod.yml
+# aka pass arg into environment variable
+ENV REACT_APP_VAR=$REACT_APP_VAR
+# Start server with npm start
+CMD npm run build
+
+# Second stage of build for production
+FROM nginx
+# Copy result of stage 1, anything in /app/build folder, to nginx's hosting directory
+COPY --from=build /app/build /usr/share/nginx/html

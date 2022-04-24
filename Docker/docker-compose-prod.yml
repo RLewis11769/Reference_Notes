@@ -1,0 +1,18 @@
+services:
+  # Name of service - would have multiple if db, backend, etc
+  react-app:
+    # Image to use (if just Dockerfile in current dir, can use . only)
+    build:
+      context: .
+      dockerfile: Dockerfile.prod
+      args:
+        - REACT_APP_VAR=production
+    # List of ports to expose
+    ports:
+      - "8080:80"
+
+# Replaces docker run command
+# docker run -d -p 8080:80 --env-file ./.env -f Dockerfile.prod --name container_name image_tagname
+
+# To use:
+# docker-compose up -d
